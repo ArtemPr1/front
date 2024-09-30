@@ -3,29 +3,39 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Frontend 1.0</title>
+		<title>Отправка данных</title>
 	</head>
 	<body>
-		<form id="form">
-			<input type="text" id="inputText" placeholder="Введите текст" />
+		<h1>Отправить данные на сервер</h1>
+		<form id="dataForm">
+			<label for="inputData">Введите данные:</label>
+			<input type="text" id="inputData" name="data" required />
 			<button type="button" onclick="sendData()">Отправить</button>
 		</form>
+
+		<!-- Сообщение о результате отправки -->
+		<p id="resultMessage"></p>
+
 		<script>
 			function sendData() {
-				const data = document.getElementById('inputText').value
-				fetch('http://localhost:5000/api/data', {
+				const data = document.getElementById('inputData').value
+
+				fetch('/submit', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({ data }),
 				})
-					.then(response => response.json())
+					.then(response => response.text())
 					.then(data => {
-						console.log('Success:', data)
+						document.getElementById('resultMessage').innerText =
+							'Данные успешно отправлены!'
 					})
 					.catch(error => {
-						console.error('Error:', error)
+						document.getElementById('resultMessage').innerText =
+							'Ошибка отправки данных.'
+						console.error('Ошибка:', error)
 					})
 			}
 		</script>
