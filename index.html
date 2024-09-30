@@ -13,10 +13,15 @@
 			<button type="button" onclick="sendData()">Отправить</button>
 		</form>
 
-		<!-- Сообщение о результате отправки -->
+		<h2>Получить данные с сервера</h2>
+		<button type="button" onclick="getData()">Получить данные</button>
+		<pre id="serverData"></pre>
+		<!-- Здесь будут отображаться данные с сервера -->
+
 		<p id="resultMessage"></p>
 
 		<script>
+			// Отправка данных на сервер
 			function sendData() {
 				const data = document.getElementById('inputData').value
 
@@ -36,6 +41,18 @@
 						document.getElementById('resultMessage').innerText =
 							'Ошибка отправки данных.'
 						console.error('Ошибка:', error)
+					})
+			}
+
+			// Получение данных с сервера
+			function getData() {
+				fetch('/data')
+					.then(response => response.text())
+					.then(data => {
+						document.getElementById('serverData').innerText = data
+					})
+					.catch(error => {
+						console.error('Ошибка при получении данных:', error)
 					})
 			}
 		</script>
